@@ -1,0 +1,9 @@
+#banner {
+    background: url("http://assettdev.colorado.edu/syllabus/library/images/university_of_colorado_white.png") no-repeat scroll left top #FFFFFF;
+    color: #f0f0f0;
+    clear: both;
+    margin: 0;
+    padding-top: 110px;
+    position: relative;
+    width: 100%;
+}

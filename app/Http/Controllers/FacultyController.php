@@ -1,5 +1,7 @@
 <?php namespace App\Http\Controllers;
 
+use Input;
+use Redirect;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -8,13 +10,14 @@ use Illuminate\Http\Request;
 class FacultyController extends Controller {
 
 	/**
-	 * Display a listing of the resource.
+	 * Display a listing of all faculty members.
 	 *
-	 * @return Response
+	 * @return View listing all faculty members
 	 */
 	public function index()
 	{
-		return view('faculty');
+		$faculty = \DB::table('staff')->get();
+		return \View::make('faculty', array('faculty' => $faculty));
 	}
 
 	/**
@@ -38,25 +41,41 @@ class FacultyController extends Controller {
 	}
 
 	/**
-	 * Display the specified resource.
+	 * View a specific faculty member
 	 *
 	 * @param  int  $id
-	 * @return Response
+	 * @return View of faculty member
 	 */
 	public function show($id)
 	{
-		//
+		// Get single faculty member by unique id
+		$facultyMember = \DB::table('staff')->where('id', $id)->first();
+
+		// Get all of the skills of the faculty member by id and add them to the faculty member object
+		$skills = \DB::table('skills')->where('user_id', $facultyMember->id)->lists('skill');
+		$facultyMember->skills = $skills;
+
+		// Create view with fetched data
+		return \View::make('facultymember', array('id' => $id, 'editing' => false, 'facultyMember' => $facultyMember));
 	}
 
 	/**
-	 * Show the form for editing the specified resource.
+	 * Allow the editing of a faculty member's skills
 	 *
 	 * @param  int  $id
-	 * @return Response
+	 * @return View that allows editing
 	 */
 	public function edit($id)
 	{
-		//
+		// Get single faculty member by unique id
+		$facultyMember = \DB::table('staff')->where('id', $id)->first();
+
+		// Get all of the skills of the faculty member by id and add them to the faculty member object
+		$skills = \DB::table('skills')->where('user_id', $facultyMember->id)->lists('skill');
+		$facultyMember->skills = $skills;
+
+		// Create view with fetched data
+		return \View::make('facultymember', array('id' => $id, 'editing' => true, 'facultyMember' => $facultyMember));
 	}
 
 	/**

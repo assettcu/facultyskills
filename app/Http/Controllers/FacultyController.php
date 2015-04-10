@@ -16,8 +16,9 @@ class FacultyController extends Controller {
 	 */
 	public function index()
 	{
-		$faculty = \DB::table('staff')->get();
-		return \View::make('faculty', array('faculty' => $faculty));
+		$faculty = \App\FacultyMember::all();
+		//$faculty = \DB::table('staff')->get();
+		return view('faculty', compact('faculty'));
 	}
 
 	/**
@@ -48,15 +49,18 @@ class FacultyController extends Controller {
 	 */
 	public function show($id)
 	{
-		// Get single faculty member by unique id
-		$facultyMember = \DB::table('staff')->where('id', $id)->first();
+		// Set editing to false
+		$editing = false;
 
-		// Get all of the skills of the faculty member by id and add them to the faculty member object
-		$skills = \DB::table('skills')->where('user_id', $facultyMember->id)->lists('skill');
-		$facultyMember->skills = $skills;
+		// Get faculty member by id
+		$facultyMember = \App\FacultyMember::find($id);
+
+		// If faculty member exists, get their skills
+		if($facultyMember)
+			$facultyMember->skills = \App\FacultyMember::find($id)->skills;
 
 		// Create view with fetched data
-		return \View::make('facultymember', array('id' => $id, 'editing' => false, 'facultyMember' => $facultyMember));
+		return view('facultymember', compact('id', 'editing', 'facultyMember'));
 	}
 
 	/**
@@ -67,15 +71,18 @@ class FacultyController extends Controller {
 	 */
 	public function edit($id)
 	{
-		// Get single faculty member by unique id
-		$facultyMember = \DB::table('staff')->where('id', $id)->first();
+		// Set editing to false
+		$editing = true;
 
-		// Get all of the skills of the faculty member by id and add them to the faculty member object
-		$skills = \DB::table('skills')->where('user_id', $facultyMember->id)->lists('skill');
-		$facultyMember->skills = $skills;
+		// Get faculty member by id
+		$facultyMember = \App\FacultyMember::find($id);
+
+		// If faculty member exists, get their skills
+		if($facultyMember)
+			$facultyMember->skills = \App\FacultyMember::find($id)->skills;
 
 		// Create view with fetched data
-		return \View::make('facultymember', array('id' => $id, 'editing' => true, 'facultyMember' => $facultyMember));
+		return view('facultymember', compact('id', 'editing', 'facultyMember'));
 	}
 
 	/**

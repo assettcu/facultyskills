@@ -1,16 +1,17 @@
 @extends('layouts.master')
 
 @section('content')
-<?php if (isset($faculty)): ?>
+
 <h1>Faculty Members</h1>
+@if(count($faculty) > 0)
     <ul>
-    <?php foreach($faculty as $facultyMember): ?>
-        <li><a href='faculty/<?php echo $facultyMember->id; ?>'><?php echo $facultyMember->name ?></a></li>
-    <?php endforeach; ?>
+        @foreach($faculty as $facultyMember)
+            <li><a href='faculty/{{ $facultyMember->id }}'>{{ $facultyMember->name }}</a></li>
+        @endforeach
     </ul>
-<?php else: ?>
+@else
     An error occured. Please try again later.
-<?php endif; ?>
+@endif
 
 
 @stop

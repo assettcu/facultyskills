@@ -8,4 +8,9 @@ class Skill extends Model {
         'skill'
     ];
 
+    public function facultyMember()
+    {
+        return $this->belongsTo('App\FacultyMember');
+    }
+
 }

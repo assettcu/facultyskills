@@ -14,3 +14,11 @@
 Route::get('/', 'WelcomeController@index');
 
 Route::resource('faculty', 'FacultyController');
+
+Route::post('faculty/{user_id}/skill', 'SkillsController@store');
+Route::delete('faculty/{user_id}/skill/{skill_id}', 'SkillsController@destroy');
+
+//Route::get('faculty', 'FacultyController@index');
+//Route::get('faculty/{id}', 'FacultyController@show');
+//Route::get('faculty/{id}/edit', 'FacultyController@edit');
+//Route::post('faculty/{id}', 'FacultyController@update');

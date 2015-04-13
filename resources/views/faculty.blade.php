@@ -6,7 +6,7 @@
 @if(count($faculty) > 0)
     <ul>
         @foreach($faculty as $facultyMember)
-            <li><a href='faculty/{{ $facultyMember->id }}'>{{ $facultyMember->name }}</a></li>
+            <li><a href='{{ action('FacultyController@show', [$facultyMember->id]) }}'>{{ $facultyMember->name }}</a></li>
         @endforeach
     </ul>
 @else

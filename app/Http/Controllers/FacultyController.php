@@ -2,6 +2,7 @@
 
 use Input;
 use Redirect;
+use App\FacultyMember;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -16,7 +17,7 @@ class FacultyController extends Controller {
 	 */
 	public function index()
 	{
-		$faculty = \App\FacultyMember::all();
+		$faculty = FacultyMember::all();
 		//$faculty = \DB::table('staff')->get();
 		return view('faculty', compact('faculty'));
 	}
@@ -52,12 +53,8 @@ class FacultyController extends Controller {
 		// Set editing to false
 		$editing = false;
 
-		// Get faculty member by id
-		$facultyMember = \App\FacultyMember::find($id);
-
-		// If faculty member exists, get their skills
-		if($facultyMember)
-			$facultyMember->skills = \App\FacultyMember::find($id)->skills;
+		// Get faculty member by id (skills are populated automatically)
+		$facultyMember = FacultyMember::find($id);
 
 		// Create view with fetched data
 		return view('facultymember', compact('id', 'editing', 'facultyMember'));
@@ -74,12 +71,8 @@ class FacultyController extends Controller {
 		// Set editing to false
 		$editing = true;
 
-		// Get faculty member by id
-		$facultyMember = \App\FacultyMember::find($id);
-
-		// If faculty member exists, get their skills
-		if($facultyMember)
-			$facultyMember->skills = \App\FacultyMember::find($id)->skills;
+		// Get faculty member by id (skills are populated automatically)
+		$facultyMember = FacultyMember::find($id);
 
 		// Create view with fetched data
 		return view('facultymember', compact('id', 'editing', 'facultyMember'));
@@ -91,9 +84,11 @@ class FacultyController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update($id, Request $request)
 	{
-		//
+		$facultyMember = Facultymember::findOrFail($id);
+
+		$facultyMember->update($request->all());
 	}
 
 	/**

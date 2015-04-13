@@ -3,6 +3,12 @@
 @section('content')
 
     @if ($facultyMember)
+        <ol class="breadcrumb">
+            <li><a href="{{ action('WelcomeController@index') }}">Home</a></li>
+            <li><a href="{{ action('FacultyController@index') }}">Faculty</a></li>
+            <li class="active">{{ $facultyMember->name }}</li>
+        </ol>
+
         <h1>{{ $facultyMember->name }}</h1>
 
         <!-- Editing code -->
@@ -14,18 +20,24 @@
                         <div class="panel-heading">
                             <h3 class="panel-title">Skills</h3>
                         </div>
-                        <ul class="list-group">
-                            @foreach($facultyMember->skills as $skill)
-                                <li class="list-group-item">
-                                    {!! Form::open(['method' => 'DELETE', 'action' => ['SkillsController@destroy', $facultyMember->id, $skill->id]]) !!}
-                                    {{ $skill->name }}
-                                    <span class="pull-right">
+                        @if(count($facultyMember->skills))
+                            <ul class="list-group">
+                                @foreach($facultyMember->skills as $skill)
+                                    <li class="list-group-item">
+                                        {!! Form::open(['method' => 'DELETE', 'action' => ['SkillsController@destroy', $facultyMember->id, $skill->id]]) !!}
+                                        {{ $skill->name }}
+                                        <span class="pull-right">
                                         {!! Form::submit('Remove', ['class' => 'btn btn-xs btn-link']) !!}
                                     </span>
-                                    {!! Form::close() !!}
-                                </li>
-                            @endforeach
-                        </ul>
+                                        {!! Form::close() !!}
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @else
+                            <div class="panel-body">
+                                There are no skills associated with this user.
+                            </div>
+                        @endif
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -53,17 +65,32 @@
         <!-- End Editing code-->
         <!-- View code -->
         @else
-            <a href="{{ action('FacultyController@edit', [$facultyMember->id]) }}">Edit</a>
 
-            @if(count($facultyMember->skills))
-                <ul>
-                    @foreach ($facultyMember->skills as $skill)
-                        <li>{{ $skill->name }}</li>
-                    @endforeach
-                </ul>
-            @else
-                <p>There are no skills associated with this user.</p>
-            @endif
+            <a class="pull-right" href="{{ action('FacultyController@edit', [$facultyMember->id]) }}"><i class="fa fa-pencil"></i> Edit</a>
+            <div class="row">
+                <div class="col-md-6">
+                    <div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Skills</h3>
+                        </div>
+
+                        @if(count($facultyMember->skills))
+                            <ul class="list-group">
+                                @foreach ($facultyMember->skills as $skill)
+                                    <li class="list-group-item">{{ $skill->name }}</li>
+                                @endforeach
+                            </ul>
+                        @else
+                            <div class="panel-body">
+                                There are no skills associated with this user.
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+
         <!-- End View code -->
         @endif
     @else

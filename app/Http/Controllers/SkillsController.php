@@ -36,12 +36,16 @@ class SkillsController extends Controller {
 	 */
 	public function store($id, Request $request)
 	{
-		$facultyMember = FacultyMember::find($id);
+		$facultyMember = FacultyMember::findOrFail($id);
 		$skill = new Skill();
 		$skill->name = $request->input('skillName');
 		$facultyMember->skills()->save($skill);
 
-		return redirect()->action('FacultyController@edit', $id);
+		//session()->flash('flash-message','testing');
+
+		return redirect()->action('FacultyController@edit', $id)->with([
+			'flash_message' => array('success' => 'Skill "'.$skill->name. '" successfully added.')
+		]);
 	}
 
 	/**
@@ -94,7 +98,9 @@ class SkillsController extends Controller {
 		else {
 
 		}
-		return redirect()->action('FacultyController@edit', $faculty_id);
+		return redirect()->action('FacultyController@edit', $faculty_id)->with([
+			'flash_message' => array('success' => 'Skill "'.$skill->name. '" successfully removed.')
+		]);
 	}
 
 }

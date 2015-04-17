@@ -13,33 +13,27 @@ class FacultyController extends Controller {
 	/**
 	 * Display a listing of all faculty members.
 	 *
-	 * @return View listing all faculty members
+	 * @return FacultyMembers JSON representation of list of all FacultyMembers
 	 */
 	public function index()
 	{
 		$faculty = FacultyMember::all();
-		//$faculty = \DB::table('staff')->get();
-		return view('faculty', compact('faculty'));
+		return response()->json($faculty);
 	}
 
 	/**
-	 * Show the form for creating a new resource.
+	 * Create a new faculty member
 	 *
-	 * @return Response
+	 * @parameter 	name 			Faculty Member's Name
+	 *
+	 * @return 		FacultyMember 	JSON representation of Newly Created FacultyMember
 	 */
-	public function create()
+	public function store(Request $request)
 	{
-		//
-	}
+		$input = $request->all();
+		$result = FacultyMember::create($input);
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
-		//
+		return response()->json($result);
 	}
 
 	/**
@@ -50,36 +44,17 @@ class FacultyController extends Controller {
 	 */
 	public function show($id)
 	{
-		// Set editing to false
-		$editing = false;
+		// Get faculty member by id
+		$facultyMember = FacultyMember::findOrFail($id);
 
-		// Get faculty member by id (skills are populated automatically)
-		$facultyMember = FacultyMember::find($id);
+		// Fetch Faculty Member's skills
+		$facultyMember->skills;
 
-		// Create view with fetched data
-		return view('facultymember', compact('id', 'editing', 'facultyMember'));
+		return response()->json($facultyMember);
 	}
 
 	/**
-	 * Allow the editing of a faculty member's skills
-	 *
-	 * @param  int  $id
-	 * @return View that allows editing
-	 */
-	public function edit($id)
-	{
-		// Set editing to false
-		$editing = true;
-
-		// Get faculty member by id (skills are populated automatically)
-		$facultyMember = FacultyMember::find($id);
-
-		// Create view with fetched data
-		return view('facultymember', compact('id', 'editing', 'facultyMember'));
-	}
-
-	/**
-	 * Update the specified resource in storage.
+	 * Update the faculty member
 	 *
 	 * @param  int  $id
 	 * @return Response
@@ -87,8 +62,9 @@ class FacultyController extends Controller {
 	public function update($id, Request $request)
 	{
 		$facultyMember = Facultymember::findOrFail($id);
-
 		$facultyMember->update($request->all());
+
+		return response()->json($facultyMember);
 	}
 
 	/**

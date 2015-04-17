@@ -13,7 +13,7 @@
 
 Route::get('/', 'WelcomeController@index');
 
-Route::resource('faculty', 'FacultyController');
+Route::resource('faculty', 'FacultyController', ['except' => ['create', 'edit', 'destroy']]);
 
 Route::post('faculty/{user_id}/skill', 'SkillsController@store');
 Route::delete('faculty/{user_id}/skill/{skill_id}', 'SkillsController@destroy');

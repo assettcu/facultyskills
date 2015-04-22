@@ -10,9 +10,10 @@
 @if(count($faculty) > 0)
     <ul class="list-group">
         @foreach($faculty as $facultyMember)
-                <a href='{{ action('FacultyController@show', [$facultyMember->id]) }}' class="list-group-item">
-                    {{ $facultyMember->name }}
-                    <span class="badge pull-right"><small>{{ count($facultyMember->skills) }}</small></span>
+                <a href='{{ action('FacultyController@show', [$facultyMember->username]) }}' class="list-group-item">
+                    {{ $facultyMember->first_name." ".$facultyMember->last_name }}
+                    <span class="badge pull-right"><small>Skills {{ count($facultyMember->skills())-1 }}</small></span>
+                    <span class="badge pull-right"><small>Tech {{ count($facultyMember->technologies())-1 }}</small></span>
                 </a>
         @endforeach
     </ul>

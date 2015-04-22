@@ -32,11 +32,11 @@ class SkillsController extends Controller {
 	 */
 	public function destroy($faculty_id, $skill_id)
 	{
-		$skill = Skill::find($skill_id);
+		$skill = FacultySkill::find($skill_id);
 
 		// Check to make sure the skill belongs to the user
-		if($skill->facultyMember->id == $faculty_id) {
-			Skill::destroy($skill_id);
+		if($skill->facultyMember->username == $faculty_id) {
+            FacultySkill::destroy($skill_id);
 			response()->json("success");
 		}
 		else {

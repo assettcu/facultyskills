@@ -13,12 +13,19 @@
 
 Route::get('/', 'WelcomeController@index');
 
-Route::resource('faculty', 'FacultyController', ['except' => ['create', 'edit', 'destroy']]);
+# API Routes
+Route::group(['prefix' => 'api/v1', 'after' => 'allowOrigin'], function()
+{
+    Route::get('facultylist','APIController@ListOfFaculty');
+    Route::get('skillslist','APIController@ListOfSkills');
+    Route::get('techlist','APIController@ListOfTechnologies');
+    Route::get('facultywithskill','APIController@FacultyWithSkill');
+    Route::get('facultywithtech','APIController@FacultyWithTechnology');
+    Route::get('search','APIController@search');
+    Route::get('similar','APIController@similar');
+});
 
+Route::resource('faculty', 'FacultyController', ['except' => ['create', 'destroy']]);
 Route::post('faculty/{user_id}/skill', 'SkillsController@store');
 Route::delete('faculty/{user_id}/skill/{skill_id}', 'SkillsController@destroy');
 
-//Route::get('faculty', 'FacultyController@index');
-//Route::get('faculty/{id}', 'FacultyController@show');
-//Route::get('faculty/{id}/edit', 'FacultyController@edit');
-//Route::post('faculty/{id}', 'FacultyController@update');

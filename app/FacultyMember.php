@@ -4,13 +4,27 @@ use Illuminate\Database\Eloquent\Model;
 
 class FacultyMember extends Model {
 
+    protected $primaryKey = "username";
+    protected $table = "fac_members";
+
 	protected $fillable = [
-        'name'
+        'username',
+        'firstname',
+        'lastname',
+        'title',
+        'email',
+        'office',
+        'phone'
     ];
 
     public function skills()
     {
-        return $this->hasMany('App\Skill');
+        return $this->hasMany('App\FacultySkill');
+    }
+
+    public function technologies()
+    {
+        return $this->hasMany('App\FacultyTechnology');
     }
 
 }

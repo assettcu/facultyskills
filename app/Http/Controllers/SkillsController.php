@@ -3,7 +3,7 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\Skill;
+use App\FacultySkill;
 use App\FacultyMember;
 use Illuminate\Http\Request;
 
@@ -18,11 +18,18 @@ class SkillsController extends Controller {
 	public function store($id, Request $request)
 	{
 		$facultyMember = FacultyMember::findOrFail($id);
-		$skill = new Skill();
+		$skill = new FacultySkill();
 		$skill->name = $request->input('skillName');
+
+		if($facultyMember->skills->contains($skill->name)) {
+			return "failure";
+		}
+
 		$facultyMember->skills()->save($skill);
 
-		return response()->json($facultyMember);
+		return redirect()->action('FacultyController@edit', $id)->with([
+			'flash_message' => array('success' => 'Skill "' . $skill->name . '" successfully added.')
+		]);
 	}
 
 	/**
@@ -32,16 +39,18 @@ class SkillsController extends Controller {
 	 */
 	public function destroy($faculty_id, $skill_id)
 	{
-		$skill = FacultySkill::find($skill_id);
+		$skill = FacultySkill::findOrFail($skill_id);
+
+		var_dump($skill);
 
 		// Check to make sure the skill belongs to the user
 		if($skill->facultyMember->username == $faculty_id) {
             FacultySkill::destroy($skill_id);
-			response()->json("success");
 		}
-		else {
-			response()->json("Skill does not match user");
-		}
+
+		return redirect()->action('FacultyController@edit', $faculty_id)->with([
+			'flash_message' => array('success' => 'Skill "'.$skill->name. '" successfully removed.')
+		]);
 	}
 
 }

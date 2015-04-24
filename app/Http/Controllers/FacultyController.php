@@ -18,7 +18,7 @@ class FacultyController extends Controller {
     public function index()
     {
         $faculty = FacultyMember::all();
-        //$faculty = \DB::table('staff')->get();
+        $faculty = $faculty->sortBy('last_name');
         return view('faculty', compact('faculty'));
     }
 
@@ -89,6 +89,10 @@ class FacultyController extends Controller {
         $facultyMember = Facultymember::findOrFail($id);
 
         $facultyMember->update($request->all());
+
+        return redirect()->action('FacultyController@edit', $id)->with([
+            'flash_message' => array('success' => 'Properties successfully updated.')
+        ]);
     }
 
     /**
@@ -101,5 +105,4 @@ class FacultyController extends Controller {
     {
         //
     }
-
 }

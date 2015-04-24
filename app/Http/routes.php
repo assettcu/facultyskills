@@ -11,7 +11,9 @@
 |
 */
 
-Route::get('/', 'WelcomeController@index');
+Route::get('/', function() {
+    return redirect('/faculty');
+});
 
 # API Routes
 Route::group(['prefix' => 'api/v1', 'after' => 'allowOrigin'], function()
@@ -26,6 +28,12 @@ Route::group(['prefix' => 'api/v1', 'after' => 'allowOrigin'], function()
 });
 
 Route::resource('faculty', 'FacultyController', ['except' => ['create', 'destroy']]);
+
 Route::post('faculty/{user_id}/skill', 'SkillsController@store');
 Route::delete('faculty/{user_id}/skill/{skill_id}', 'SkillsController@destroy');
+
+Route::post('faculty/{user_id}/technology', 'TechnologyController@store');
+Route::delete('faculty/{user_id}/technology/{technology_id}', 'TechnologyController@destroy');
+
+
 

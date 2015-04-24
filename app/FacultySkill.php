@@ -13,7 +13,7 @@ class FacultySkill extends Model {
 
     public function facultyMember()
     {
-        return $this->belongsTo('App\FacultyMember');
+        return $this->belongsTo('App\FacultyMember', 'faculty_username');
     }
 
     public static function getAllUnique()

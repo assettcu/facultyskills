@@ -9,9 +9,36 @@
         <header>
             <div class="container">
                 <div id="banner"></div>
-                <div id="navbar">
-                    <h2>Faculty Skills</h2>
-                </div>
+                <nav class="navbar navbar-default">
+                    <div class="container-fluid">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="#">ASSETT Skills</a>
+                        </div>
+
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav">
+                                <li class="active"><a href="{{ action('FacultyController@index') }}">Home <span class="sr-only">(current)</span></a></li>
+                                <li><a href="{{ action('FacultyController@index') }}">Faculty</a></li>
+                                <li><a href="#">Expertise</a></li>
+                                <li><a href="#">Technologies</a></li>
+                            </ul>
+                            <form class="navbar-form navbar-right" role="search">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Search">
+                                </div>
+                                <button type="submit" class="btn btn-default">Submit</button>
+                            </form>
+                        </div><!-- /.navbar-collapse -->
+                    </div><!-- /.container-fluid -->
+                </nav>
             </div>
         </header>
         <div class="container">

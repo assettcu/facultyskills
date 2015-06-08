@@ -1,8 +1,9 @@
-<?php namespace App\Http\Controllers;
+<?php
+namespace App\Http\Controllers;
 
 use Input;
 use Redirect;
-use App\FacultyMember;
+use App\Models;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 

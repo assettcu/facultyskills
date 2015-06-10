@@ -15,6 +15,12 @@ Route::get('/', function() {
     return redirect('/faculty');
 });
 
+Route::get('logout','AuthController@logout');
+Route::get('auth/login','AuthController@index');
+Route::post('auth/login','AuthController@login');
+
+Route::get('search','SearchController@index');
+
 # API Routes
 Route::group(['prefix' => 'api/v1', 'after' => 'allowOrigin'], function()
 {

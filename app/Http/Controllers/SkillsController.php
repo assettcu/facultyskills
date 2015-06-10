@@ -3,8 +3,8 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\FacultySkill;
-use App\FacultyMember;
+use App\Models\Objects\FacultySkill;
+use App\Models\Objects\FacultyMember;
 use Illuminate\Http\Request;
 
 class SkillsController extends Controller {
@@ -40,8 +40,6 @@ class SkillsController extends Controller {
 	public function destroy($faculty_id, $skill_id)
 	{
 		$skill = FacultySkill::findOrFail($skill_id);
-
-		var_dump($skill);
 
 		// Check to make sure the skill belongs to the user
 		if($skill->facultyMember->username == $faculty_id) {

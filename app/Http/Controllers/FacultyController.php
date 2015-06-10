@@ -3,7 +3,8 @@ namespace App\Http\Controllers;
 
 use Input;
 use Redirect;
-use App\Models;
+use DB;
+use App\Models\Objects\FacultyMember;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -20,7 +21,7 @@ class FacultyController extends Controller {
     {
         $faculty = FacultyMember::all();
         $faculty = $faculty->sortBy('last_name');
-        return view('faculty', compact('faculty'));
+        return view('faculty', compact("faculty"));
     }
 
     /**
@@ -91,8 +92,8 @@ class FacultyController extends Controller {
 
         $facultyMember->update($request->all());
 
-        return redirect()->action('FacultyController@edit', $id)->with([
-            'flash_message' => array('success' => 'Properties successfully updated.')
+        return redirect()->action('FacultyController@show', $id)->with([
+            'flash_message' => array('success' => 'Contact successfully updated.')
         ]);
     }
 

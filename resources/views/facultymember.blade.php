@@ -12,7 +12,7 @@
         <span class="faculty-name-header">{{ $facultyMember->first_name }} {{ $facultyMember->last_name }}</span>
 
         <!-- Editing code -->
-        @if ($editing)
+        @if ($editing and Auth::check())
             <br><a href="{{ action('FacultyController@show', [$facultyMember->username]) }}"><i class="fa fa-angle-left"></i> Back to profile</a>
 
 
@@ -138,7 +138,9 @@
 
         <!-- View code -->
         @else
+            @if (Auth::check() and (Auth::user()->permission == "admin" or Auth::user()->id == $facultyMember->username))
             <a class="pull-right" href="{{ action('FacultyController@edit', [$facultyMember->username]) }}"><i class="fa fa-pencil"></i> Edit</a>
+            @endif
 
             <div class="faculty-general-info">
                 <div class="row">
@@ -149,7 +151,7 @@
                 <div class="row">
                     <div class="col-md-4"><h4>Campus Box</h4> {{ $facultyMember->campus_box }}</div>
                     <div class="col-md-4"><h4>Email</h4><a href="mailto:{{ $facultyMember->email }}">{{ $facultyMember->email }}</a></div>
-                    <div class="col-md-4"><h4>Website</h4> <a href="{{ $facultyMember->url }}">{{ $facultyMember->url }}</a></div>
+                    <div class="col-md-4"><h4>Website</h4> <a href="{{ $facultyMember->url }}" target="_blank">{{ $facultyMember->url }}</a></div>
                 </div>
             </div>
 

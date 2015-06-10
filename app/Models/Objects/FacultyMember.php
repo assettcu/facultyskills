@@ -1,4 +1,4 @@
-<?php namespace App;
+<?php namespace App\Models\Objects;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,12 +19,12 @@ class FacultyMember extends Model {
 
     public function skills()
     {
-        return $this->hasMany('App\FacultySkill', 'faculty_username');
+        return $this->hasMany('App\Models\Objects\FacultySkill', 'faculty_username');
     }
 
     public function technologies()
     {
-        return $this->hasMany('App\FacultyTechnology', 'faculty_username');
+        return $this->hasMany('App\Models\Objects\FacultyTechnology', 'faculty_username');
     }
 
 }

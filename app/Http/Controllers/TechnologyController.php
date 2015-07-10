@@ -3,8 +3,8 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\FacultyTechnology;
-use App\FacultyMember;
+use App\Models\Objects\FacultyTechnology;
+use App\Models\Objects\FacultyMember;
 use Illuminate\Http\Request;
 
 class TechnologyController extends Controller {
@@ -18,12 +18,17 @@ class TechnologyController extends Controller {
 	public function store($id, Request $request)
 	{
 		$facultyMember = FacultyMember::findOrFail($id);
-		$skill = new FacultyTechnology();
-		$skill->name = $request->input('technologyName');
-		$facultyMember->skills()->save($skill);
+		$technology = new FacultyTechnology();
+		$technology->name = $request->input('technologyName');
+
+        if($facultyMember->technologies->contains($technology->name)) {
+            return "failure";
+        }
+
+		$facultyMember->technologies()->save($technology);
 
 		return redirect()->action('FacultyController@edit', $id)->with([
-			'flash_message' => array('success' => 'Technology "' . $skill->name . '" successfully added.')
+			'flash_message' => array('success' => 'Technology "' . $technology->name . '" successfully added.')
 		]);
 	}
 
@@ -42,7 +47,7 @@ class TechnologyController extends Controller {
 		}
 
 		return redirect()->action('FacultyController@edit', $faculty_id)->with([
-			'flash_message' => array('success' => 'Technology "'.$skill->name. '" successfully removed.')
+			'flash_message' => array('success' => 'Technology "'.$technology->name. '" successfully removed.')
 		]);
 	}
 

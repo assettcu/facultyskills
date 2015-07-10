@@ -1,5 +1,6 @@
 <?php namespace App\Models\Objects;
 
+use DB;
 use Illuminate\Database\Eloquent\Model;
 
 class FacultyTechnology extends Model {
@@ -13,12 +14,12 @@ class FacultyTechnology extends Model {
 
     public function facultyMember()
     {
-        return $this->belongsTo('App\FacultyMember', 'faculty_username');
+        return $this->belongsTo('App\Models\Objects\FacultyMember', 'faculty_username');
     }
 
     public static function getAllUnique()
     {
-        return \DB::table('fac_technologies')
+        return DB::table('fac_technologies')
             ->select('name')
             ->groupBy('name')
             ->orderBy('name')

@@ -7,3 +7,18 @@
     position: relative;
     width: 100%;
 }
+
+.faculty-name-header {
+    font-size: 3.2rem;
+    margin-bottom: 2rem;
+    display: inline-block;
+}
+
+.faculty-general-info {
+    padding-bottom: 3rem;
+}
+
+.faculty-general-info div {
+    padding-bottom: 1rem;
+    word-wrap: break-word;
+}

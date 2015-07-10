@@ -3,11 +3,11 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\Models\Objects\FacultySkill;
+use App\Models\Objects\FacultyTechnology;
 use App\Models\Objects\FacultyMember;
 use Illuminate\Http\Request;
 
-class SkillsController extends Controller {
+class TechnologyController extends Controller {
 
 	/**
 	 * Add a new skill to a Faculty Member
@@ -18,17 +18,17 @@ class SkillsController extends Controller {
 	public function store($id, Request $request)
 	{
 		$facultyMember = FacultyMember::findOrFail($id);
-		$skill = new FacultySkill();
-		$skill->name = $request->input('skillName');
+		$technology = new FacultyTechnology();
+		$technology->name = $request->input('technologyName');
 
-		if($facultyMember->skills->contains($skill->name)) {
-			return "failure";
-		}
+        if($facultyMember->technologies->contains($technology->name)) {
+            return "failure";
+        }
 
-		$facultyMember->skills()->save($skill);
+		$facultyMember->technologies()->save($technology);
 
 		return redirect()->action('FacultyController@edit', $id)->with([
-			'flash_message' => array('success' => 'Skill "' . $skill->name . '" successfully added.')
+			'flash_message' => array('success' => 'Technology "' . $technology->name . '" successfully added.')
 		]);
 	}
 
@@ -37,17 +37,17 @@ class SkillsController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function destroy($faculty_id, $skill_id)
+	public function destroy($faculty_id, $technology_id)
 	{
-		$skill = FacultySkill::findOrFail($skill_id);
+		$skill = FacultyTechnology::findOrFail($technology_id);
 
 		// Check to make sure the skill belongs to the user
 		if($skill->facultyMember->username == $faculty_id) {
-            FacultySkill::destroy($skill_id);
+			FacultyTechnology::destroy($technology_id);
 		}
 
 		return redirect()->action('FacultyController@edit', $faculty_id)->with([
-			'flash_message' => array('success' => 'Skill "'.$skill->name. '" successfully removed.')
+			'flash_message' => array('success' => 'Technology "'.$technology->name. '" successfully removed.')
 		]);
 	}
 

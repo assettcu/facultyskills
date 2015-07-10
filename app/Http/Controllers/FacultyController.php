@@ -1,8 +1,10 @@
-<?php namespace App\Http\Controllers;
+<?php
+namespace App\Http\Controllers;
 
 use Input;
 use Redirect;
-use App\FacultyMember;
+use DB;
+use App\Models\Objects\FacultyMember;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -10,72 +12,99 @@ use Illuminate\Http\Request;
 
 class FacultyController extends Controller {
 
-	/**
-	 * Display a listing of all faculty members.
-	 *
-	 * @return FacultyMembers JSON representation of list of all FacultyMembers
-	 */
-	public function index()
-	{
-		$faculty = FacultyMember::all();
-		return response()->json($faculty);
-	}
+    /**
+     * Display a listing of all faculty members.
+     *
+     * @return View listing all faculty members
+     */
+    public function index()
+    {
+        $faculty = FacultyMember::all();
+        $faculty = $faculty->sortBy('last_name');
+        return view('faculty', compact("faculty"));
+    }
 
-	/**
-	 * Create a new faculty member
-	 *
-	 * @parameter 	name 			Faculty Member's Name
-	 *
-	 * @return 		FacultyMember 	JSON representation of Newly Created FacultyMember
-	 */
-	public function store(Request $request)
-	{
-		$input = $request->all();
-		$result = FacultyMember::create($input);
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function create()
+    {
+        //
+    }
 
-		return response()->json($result);
-	}
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return Response
+     */
+    public function store()
+    {
+        //
+    }
 
-	/**
-	 * View a specific faculty member
-	 *
-	 * @param  int  $id
-	 * @return View of faculty member
-	 */
-	public function show($id)
-	{
-		// Get faculty member by id
-		$facultyMember = FacultyMember::findOrFail($id);
+    /**
+     * View a specific faculty member
+     *
+     * @param  int  $id
+     * @return View of faculty member
+     */
+    public function show($id)
+    {
+        // Set editing to false
+        $editing = false;
 
-		// Fetch Faculty Member's skills
-		$facultyMember->skills;
+        // Get faculty member by id (skills are populated automatically)
+        $facultyMember = FacultyMember::find($id);
 
-		return response()->json($facultyMember);
-	}
+        // Create view with fetched data
+        return view('facultymember', compact('id', 'editing', 'facultyMember'));
+    }
 
-	/**
-	 * Update the faculty member
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id, Request $request)
-	{
-		$facultyMember = Facultymember::findOrFail($id);
-		$facultyMember->update($request->all());
+    /**
+     * Allow the editing of a faculty member's skills
+     *
+     * @param  int  $id
+     * @return View that allows editing
+     */
+    public function edit($id)
+    {
+        // Set editing to false
+        $editing = true;
 
-		return response()->json($facultyMember);
-	}
+        // Get faculty member by id (skills are populated automatically)
+        $facultyMember = FacultyMember::find($id);
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
-	}
+        // Create view with fetched data
+        return view('facultymember', compact('id', 'editing', 'facultyMember'));
+    }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function update($id, Request $request)
+    {
+        $facultyMember = Facultymember::findOrFail($id);
+
+        $facultyMember->update($request->all());
+
+        return redirect()->action('FacultyController@show', $id)->with([
+            'flash_message' => array('success' => 'Contact successfully updated.')
+        ]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
 }

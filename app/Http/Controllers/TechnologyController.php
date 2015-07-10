@@ -39,10 +39,10 @@ class TechnologyController extends Controller {
 	 */
 	public function destroy($faculty_id, $technology_id)
 	{
-		$skill = FacultyTechnology::findOrFail($technology_id);
+		$technology = FacultyTechnology::findOrFail($technology_id);
 
 		// Check to make sure the skill belongs to the user
-		if($skill->facultyMember->username == $faculty_id) {
+		if($technology->facultyMember->username == $faculty_id) {
 			FacultyTechnology::destroy($technology_id);
 		}
 
